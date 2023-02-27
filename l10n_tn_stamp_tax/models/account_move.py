@@ -71,9 +71,9 @@ class StampTaxAccountMove(models.Model):
             already_exists = self.line_ids.filtered(
                 lambda line: line.name and line.name.find('Timbre Fiscal') == 0)
             terms_lines = self.line_ids.filtered(
-                lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                lambda line: line.account_id.account_type.type in ('receivable', 'payable'))
             other_lines = self.line_ids.filtered(
-                lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                lambda line: line.account_id.account_type.type not in ('receivable', 'payable'))
             if already_exists:
                 amount = rec.stamp_tax
                 if rec.stamp_tax_sales_account \
@@ -135,7 +135,7 @@ class StampTaxAccountMove(models.Model):
                     line_name = line_name + \
                                 " @ " + str(self.stamp_tax)
                     terms_lines = self.line_ids.filtered(
-                        lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                        lambda line: line.account_id.account_type.type in ('receivable', 'payable'))
                     already_exists = self.line_ids.filtered(
                         lambda line: line.name and line.name.find('Timbre Fiscal') == 0)
                     if already_exists:
@@ -248,9 +248,9 @@ class StampTaxAccountMove(models.Model):
                         # Update the payement account amount
 
                         terms_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type.type in ('receivable', 'payable'))
                         other_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type.type not in ('receivable', 'payable'))
                         total_balance = sum(other_lines.mapped('balance'))
                         total_amount_currency = sum(other_lines.mapped('amount_currency'))
                         terms_lines.update({
@@ -260,9 +260,9 @@ class StampTaxAccountMove(models.Model):
                         })
                     else:
                         terms_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type.type in ('receivable', 'payable'))
                         other_lines = self.line_ids.filtered(
-                            lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                            lambda line: line.account_id.account_type.type not in ('receivable', 'payable'))
                         already_exists = self.line_ids.filtered(
                             lambda line: line.name and line.name.find('Timbre Fiscal') == 0)
                         total_balance = sum(other_lines.mapped('balance')) - amount
@@ -284,9 +284,9 @@ class StampTaxAccountMove(models.Model):
                 if already_exists:
                     self.line_ids -= already_exists
                     terms_lines = self.line_ids.filtered(
-                        lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                        lambda line: line.account_id.account_type.type in ('receivable', 'payable'))
                     other_lines = self.line_ids.filtered(
-                        lambda line: line.account_id.user_type_id.type not in ('receivable', 'payable'))
+                        lambda line: line.account_id.account_type.type not in ('receivable', 'payable'))
                     total_balance = sum(other_lines.mapped('balance'))
                     total_amount_currency = sum(other_lines.mapped('amount_currency'))
                     terms_lines.update({

@@ -1,0 +1,27 @@
+<odoo>
+    <template id="stamp_report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='total']/div/table/t" position="after">
+            <t t-if="o.stamp_tax>0">
+                <tr>
+                    <td>
+                        <span>Timbe Fiscal</span>
+                    </td>
+                    <td class="text-right">
+                        <span t-field="o.stamp_tax"
+                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='total']" position="after">
+            <tr>
+                <span>Arrêtée la présente facture à la somme de:</span>
+                <p t-esc="o.amount_letter()"/>
+    		</tr>
+		</xpath>
+        
+        <xpath expr="//p[@name='payment_communication']" position="replace">
+        </xpath>
+        
+    </template>
+</odoo>

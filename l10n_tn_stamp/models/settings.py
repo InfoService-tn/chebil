@@ -1,8 +1,7 @@
 from odoo import models, fields, api
 
-class StampCompanyConfigSettings(models.Model):
-    _name = 'res.company'
-    _inherit = 'res.company'
+class StampConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
 
     stamp_tax_enable = fields.Boolean (string="Timbre Fiscal")
     stamp_tax_amount = fields.Monetary(string="Montant")
@@ -10,7 +9,7 @@ class StampCompanyConfigSettings(models.Model):
     stamp_tax_purchase_account = fields.Many2one('account.account', string="Compte Achats")
     
     def get_values(self):
-        res = super(StampCompanyConfigSettings, self).get_values()
+        res = super(StampConfigSettings, self).get_values()
         res.update(
             stamp_tax_enable = self.env['ir.config_parameter'].sudo().get_param('stamp_tax_enable'),
             stamp_tax_amount = float(self.env['ir.config_parameter'].sudo().get_param('stamp_tax_amount')),
@@ -20,7 +19,7 @@ class StampCompanyConfigSettings(models.Model):
         return res
 
     def set_values(self):
-        super(StampCompanyConfigSettings, self).set_values()
+        super(StampConfigSettings, self).set_values()
         self.env['ir.config_parameter'].set_param('stamp_tax_enable', self.stamp_tax_enable)
         if self.stamp_tax_enable:
             self.env['ir.config_parameter'].set_param('stamp_tax_amount', self.stamp_tax_amount)

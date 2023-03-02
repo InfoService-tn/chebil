@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
-class StampCompanyConfigSettings(models.TransientModel):
-    _name = 'stamp.company.settings'
+class StampCompanyConfigSettings(models.Model):
+    _name = 'res.company'
     _inherit = 'res.company'
 
     stamp_tax_enable = fields.Boolean (string="Timbre Fiscal")

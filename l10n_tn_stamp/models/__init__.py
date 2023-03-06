@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import settings, partner, account_move
+from . import settings, company, partner, account_move

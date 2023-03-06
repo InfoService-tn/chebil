@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 
-class CompanyStampTaxl(models.Model):
+class ResCompanyl(models.Model):
     _inherit = 'res.company'
 
     stamp_tax_enable = fields.Boolean (string="Timbre Fiscal")

@@ -1,12 +1,12 @@
 from odoo import models, fields, api
 
-class StampConfigSettings(models.Model):
-    _inherit = 'res.company'
-    
+class StampConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
     stamp_tax_enable = fields.Boolean (string="Timbre Fiscal")
     stamp_tax_amount = fields.Monetary(string="Montant")
-    stamp_tax_sales_account = fields.Many2one('account.account', string="Compte Ventes")
-    stamp_tax_purchase_account = fields.Many2one('account.account', string="Compte Achats")
+    stamp_tax_sales_account = fields.Text (string="Compte Ventes")
+    stamp_tax_purchase_account = fields.Text (string="Compte Achats")
     
     def get_values(self):
         res = super(StampConfigSettings, self).get_values()

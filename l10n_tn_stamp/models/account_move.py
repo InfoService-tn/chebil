@@ -81,6 +81,7 @@ class StampTaxAccountMove(models.Model):
             
             stamp_enable = rec.env['ir.config_parameter'].sudo().get_param('stamp_tax_enable')
             stamp_amount = rec.env['ir.config_parameter'].sudo().get_param('stamp_tax_amount')
+
             stamp_sales_account = rec.env['ir.config_parameter'].sudo().get_param('stamp_tax_sales_account')
             stamp_purchase_account = rec.env['ir.config_parameter'].sudo().get_param('stamp_tax_purchase_account')
                 

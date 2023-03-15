@@ -15,6 +15,11 @@
             </t>
         </xpath>
         -->
+        <xpath expr="//t[@t-set='lines']" position="attributes">
+            <attribute name="t-value">
+                o.invoice_line_ids.filtered('product_id','!=','TF').sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)
+            </attribute>
+        </xpath>
         <xpath expr="//div[@id='total']" position="after">
             <tr>
                 <span>Arrêtée la présente facture à la somme de:</span>

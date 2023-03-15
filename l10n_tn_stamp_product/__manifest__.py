@@ -19,7 +19,6 @@
         'account'
     ],
     'data': [
-        'report/stamp_invoice_report.xml',
-        'views/report_invoice.xml',
+        'report/stamp_invoice_report.xml'
     ],
 }

@@ -1,31 +1,24 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Tunisia Stamp Tax",
+    'name': "Chebil customisations - Tunisia",
 
     'summary': """
-        Activation du droit de timbre fiscal pour les sociétés tunisiennes
+        Personnalisation spéciales pour le Timbre Fiscal
         """,
 
     'description': """
-        Ce module permet d'activer la taxe globale (Timbre Fiscal) pour les factures des achats et des ventes...
+        Ce module permet de personnaliser les factures avec le Timbre Fiscal ...
         """,
 
     'author': "Info Service (Tunisia)",
     'website': "http://www.infoservice.tn",
     'category': 'Uncategorized',
-    'version': '1.0',
+    'version': '16.0',
     'depends': [
         'base',
         'account'
     ],
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/stamp_settings.xml',
-        'views/stamp_partner.xml',
-        'views/stamp_account_move.xml',
-        # 'report/stamp_invoice_report.xml'
-    ],
-    'demo': [
-        'demo/demo.xml',
+        'report/stamp_invoice_report.xml'
     ],
 }

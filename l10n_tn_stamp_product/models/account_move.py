@@ -15,8 +15,8 @@ _logger = logging.getLogger(__name__)
 class StampTaxAccountMove(models.Model):
     _inherit = 'account.move'
 
-    
-    
+    stamp_tax = fields.Boolean(string='Timbre Fiscal')
+   
     # Convertir d'un montant en chiffres à un montant en lettres
                     
     @api.depends('amount_total')
@@ -34,6 +34,6 @@ class StampTaxAccountMove(models.Model):
         if z1 > 1:
             amount = amount + " "+curr_label+" "+z2+" "+curr_decimals+"."
         else:
-            amount = amount + " "+curr_label+" "  +z2+" "+curr_decimals+"."
+            amount = amount + " "+curr_label+" "+z2+" "+curr_decimals+"."
 
         return amount.upper()

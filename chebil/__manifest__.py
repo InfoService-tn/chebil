@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Stamp Invoice - Tunisia",
+    'name': "Chebil customisations - Tunisia",
 
     'summary': """
         Personnalisation spéciales pour le Timbre Fiscal

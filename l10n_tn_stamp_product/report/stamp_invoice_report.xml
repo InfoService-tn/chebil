@@ -17,7 +17,7 @@
         -->
         <xpath expr="//t[@t-set='lines']" position="attributes">
             <attribute name="t-value">
-                o.invoice_line_ids.filtered(lambda line: line.product_id in ('TF', 'Timbre fiscal')).sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)
+                o.invoice_line_ids.filtered(lambda line: line.name not in ('[TF] Timbre fiscal', 'Timbre fiscal')).sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)
             </attribute>
         </xpath>
         <xpath expr="//div[@id='total']" position="after">

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+
         <!-- Server action to print sale order excel report-->
+
+        <!--
         <record id="action_print_sale_order_excel_report"
                 model="ir.actions.server">
             <field name="name">Sale Order Excel Report</field>
@@ -13,7 +16,10 @@
                 action = record.print_excel_report()
             </field>
         </record>
+        -->
+
         <!-- Server action to print invoice excel report-->
+
         <record id="action_print_invoice_excel_report"
                 model="ir.actions.server">
             <field name="name">Account Invoice Excel Report</field>
@@ -25,7 +31,10 @@
                 action = record.print_excel_report()
             </field>
         </record>
+
         <!-- Server action to print transfer excel report-->
+
+        <!--
         <record id="action_print_picking_excel_report"
                 model="ir.actions.server">
             <field name="name">Picking Excel Report</field>
@@ -37,5 +46,6 @@
                 action = record.print_excel_report()
             </field>
         </record>
+        -->
     </data>
 </odoo>

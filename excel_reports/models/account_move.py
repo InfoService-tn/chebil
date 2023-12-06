@@ -64,7 +64,7 @@ class AccountMove(models.Model):
         sheet.write('A4', 'Montant Hors Taxes' )
         sheet.write('A5', 'TVA' )
         sheet.write('A6', 'Timbre fiscal' )
-        sheet.write(''A7', 'Total' )
+        sheet.write('A7', 'Total' )
         
         for account_move in self.env['account.move'].browse(datas):
             # Set file title as invoice when it is invoice and set bill

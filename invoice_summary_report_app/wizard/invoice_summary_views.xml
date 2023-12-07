@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="invoice_summary_views_wizard" model="ir.ui.view">
+            <field name="name">invoice.summary.wizard</field>
+            <field name="model">invoice.summary</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date" required="True"/>
+                            <field name="partner_ids" string="Customers" widget="many2many_tags"/>
+                            <field name="invoice_status" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="end_date" required="True"/>
+                            <field name="invoice_type" widget="radio"/>
+                            <field name="company_ids" string="Company" widget="many2many_tags"/>
+                        </group>
+                        
+                    </group>
+                    <group>
+                        <field name="file" invisible="1"/>
+                        <field name="document" filename="file" attrs="{'invisible': [('file', '==', False)]}"
+                         readonly="1"/>
+                    </group>
+                    <newline/>
+                    <separator colspan="6"/>
+                    <footer>
+                        <button name="action_print_report" string="Print" type="object" class="oe_highlight"/>
+                        <button name="action_print_xls" string="Print Excel" type="object" 
+                            class="oe_highlight"/>
+                        <button special="cancel" class="oe_highlight" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_invoice_summary" model="ir.actions.act_window">
+            <field name="name">Invoice Summary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">invoice.summary</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="invoice_summary_views_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

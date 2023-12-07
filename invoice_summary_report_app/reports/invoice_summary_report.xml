@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="summary_invoice_report">
+		<t t-call="web.html_container">
+			<!-- <t t-foreach="docs" t-as="o"> -->
+			<t t-call="web.external_layout">
+				<t t-if ="'partner_ids' in data">
+                    <t t-foreach="data.get('partner_ids')" t-as="partner">
+						<div class="page">
+								<div class="oe_structure"/> 
+								<center><h2>Invoice Summary</h2></center>
+								<br/>
+								<center style="font-weight: bold">
+									<span t-esc="start_date"/> To <span t-esc="end_date"/>
+								</center>
+								<br/>
+								<br/>
+								
+								<table class="table table-bordered table-sm text-center">
+									<thead style="background-color: #ADD8E6">
+										<tr>
+											<th class="thead-light">Partner</th>
+											<th class="thead-light">Invoice No</th>
+											<th class="thead-light">Invoice Date</th>
+											<th class="thead-light">Invoiced Amount</th>
+											<th class="thead-light">Amount Paid</th>
+											<th class="thead-light">Amount Due</th>
+										</tr>
+									</thead>
+									<tbody>
+										<t t-foreach="get_invoice_details(data, partner)" t-as="records">
+											
+			                            	<tr t-foreach="records.get('partner_data')" t-as="record">
+			                            		
+												<!-- <t t-esc="record"/> -->
+				                            	<td>
+				                                    <span t-esc="record.get('partner_id')"/>
+				                                </td>
+				                                <td>
+				                                    <span t-esc="record.get('name')"/>
+				                                </td>
+				                                <td>
+				                                    <span t-esc="record.get('invoice_date')"/>
+				                                </td>
+				                                <td>
+				                                    <span t-esc="record.get('amount_total')"/>
+				                                </td>
+				                                <td>
+				                                    <span t-esc="record.get('amount_paid')" />
+				                                </td>
+				                                <td>
+				                                    <span t-esc="record.get('amount_residual')" />
+				                                </td>
+											</tr>
+
+										</t>
+									</tbody>
+											
+								</table>
+
+						</div> 
+						<div style="page-break-before:always;"/>
+				 	</t>
+				</t>
+			</t>
+		</t>
+
+	</template>
+</odoo>

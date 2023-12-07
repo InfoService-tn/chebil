@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <menuitem id="menu_invoice_summary" 
+        	name="Invoice Summary" 
+        	action="invoice_summary_report_app.action_invoice_summary"
+        	parent="account.menu_finance" sequence="3"/>
+	</data>
+</odoo>

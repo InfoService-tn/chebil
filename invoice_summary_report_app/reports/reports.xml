@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_report_invoice_summary" model="ir.actions.report">
+            <field name="name">Invoice Summary</field>
+            <field name="model">invoice.summary</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">invoice_summary_report_app.summary_invoice_report</field>
+            <field name="report_file">invoice_summary_report_app.summary_invoice_report</field>
+        </record>
+
+    </data>
+</odoo>

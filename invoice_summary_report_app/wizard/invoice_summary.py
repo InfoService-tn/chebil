@@ -26,7 +26,7 @@ class InvoiceSummary(models.TransientModel):
 					('credit_note', 'Customer Credit Note'),
 					('bill', 'Vendor Bill'),
 					('vendor_credit_note', 'Vendor Credit Note')], string='Invoice Type')
-	partner_ids= fields.Many2many('res.partner', string="Customers" , required=True)
+	partner_ids= fields.Many2many('res.partner', string="Customers" , required=False)
 	company_ids = fields.Many2many('res.company', string='Company' , default=lambda self: self.env.user.company_id)
 	
 	document = fields.Binary('Download File')
@@ -53,7 +53,8 @@ class InvoiceSummary(models.TransientModel):
 			invoice_type = data.get('invoice_type')
 			invoice_status = data.get('invoice_status')
 			partner_data=[]
-			account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+			account_move = self.env['account.move'].('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+                                                        # account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
 			if invoice_type == 'customer_invoice':
 				for records in account_move:
 					value = {}

@@ -30,8 +30,9 @@
             </field>
         </record>
        
-        <record id="action_print_invoice_summary" model="ir.actions.act_window">
+        <record id="action_print_invoice_summary" model="ir.actions.server">
             <field name="name">Print Invoice Summary Report</field>
+            <field name="model_id" ref="model_account_move"/>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">print.invoice.summary</field>
             <field name="view_type">form</field>

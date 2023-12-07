@@ -26,7 +26,7 @@ class PrintInvoiceSummary(models.TransientModel):
     invoice_status = fields.Selection([('all', 'All'), ('paid', 'Paid'),('un_paid', 'Unpaid')], string='Invoice Status')
     
     
-    @api.multi
+    # @api.multi
     def action_print_invoice_summary(self):
         new_from_date = self.from_date.strftime('%Y-%m-%d')
         new_to_date = self.to_date.strftime('%Y-%m-%d')

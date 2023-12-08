@@ -206,7 +206,7 @@ class InvoiceSummary(models.TransientModel):
 		worksheet.merge_range('A1:F1' , TITLEHEDER,header_format)
 		rowscol = 1
 		if partner_ids:
-			# for partner in partner_ids:
+			for partner in partner_ids:
 				worksheet.set_row(1,20)
 				start_date = datetime.strptime(str(data.get('start_date', False)), '%Y-%m-%d').date()
 				from_date = start_date.strftime('%d-%m-%Y')

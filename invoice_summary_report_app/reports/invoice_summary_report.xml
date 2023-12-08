@@ -19,9 +19,9 @@
 								<table class="table table-bordered table-sm text-center">
 									<thead style="background-color: #ADD8E6">
 										<tr>
-											<th class="thead-light">Partner</th>
 											<th class="thead-light">Invoice No</th>
 											<th class="thead-light">Invoice Date</th>
+                                                                                                                                                                                                             <th class="thead-light">Partner</th>
 											<th class="thead-light">Invoiced Amount</th>
 											<th class="thead-light">Amount Paid</th>
 											<th class="thead-light">Amount Due</th>

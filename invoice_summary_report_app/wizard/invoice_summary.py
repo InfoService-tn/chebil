@@ -26,7 +26,8 @@ class InvoiceSummary(models.TransientModel):
 					('credit_note', 'Customer Credit Note'),
 					('bill', 'Vendor Bill'),
 					('vendor_credit_note', 'Vendor Credit Note')], string='Invoice Type')
-	partner_ids= fields.Many2many('res.partner', string="Customers" , required=False)
+	partner_ids= fields.Many2many('res.partner', string="Customers" )
+                   # , required=False)
 	company_ids = fields.Many2many('res.company', string='Company' , default=lambda self: self.env.user.company_id)
 	
 	document = fields.Binary('Download File')
@@ -45,8 +46,9 @@ class InvoiceSummary(models.TransientModel):
 
 
 	def _get_invoice_details(self,data,partner):
+
 		lines =[]
-		if partner:
+		# if partner:
 			start_date = data.get('start_date')
 			end_date = data.get('end_date')
 			partner_ids = data.get('partner_ids')

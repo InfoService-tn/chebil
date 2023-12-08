@@ -11,14 +11,14 @@ class InvoicesummaryReport(models.AbstractModel):
 
 	def _get_invoice_details(self,data,partner):
 		lines =[]
-		if partner:
+#		if partner:
 			start_date = data.get('start_date')
 			end_date = data.get('end_date')
 			partner_ids = data.get('partner_ids')
 			invoice_type = data.get('invoice_type')
 			invoice_status = data.get('invoice_status')
 			partner_data=[]
-			account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+			account_move = self.env['account.move'].('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
 			if invoice_type == 'customer_invoice':
 				for records in account_move:
 					value = {}
@@ -46,6 +46,7 @@ class InvoicesummaryReport(models.AbstractModel):
 					partner_data.append(value)
 
 			elif invoice_type == 'credit_note':
+
 				for credit_record in account_move:
 					credit_value = {}
 					if invoice_status == 'draft':
@@ -71,6 +72,7 @@ class InvoicesummaryReport(models.AbstractModel):
 					partner_data.append(credit_value)
 
 			elif invoice_type == 'bill':
+
 				for bill_record in account_move:
 					bill_note = {}
 					if invoice_status == 'draft':
@@ -96,6 +98,7 @@ class InvoicesummaryReport(models.AbstractModel):
 					partner_data.append(bill_note)
 
 			elif invoice_type == 'vendor_credit_note':
+
 				for note_record in account_move:
 					refund_note = {}
 					if invoice_status== 'draft':
@@ -125,6 +128,7 @@ class InvoicesummaryReport(models.AbstractModel):
 
 
 	def _get_report_values(self, docids, data=None):
+
 		start_date = data['form']['start_date']
 		start_date = datetime.strptime(start_date, "%Y-%m-%d").strftime("%d-%m-%Y")
 		end_date = data['form']['end_date']

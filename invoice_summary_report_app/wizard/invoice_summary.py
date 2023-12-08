@@ -48,7 +48,7 @@ class InvoiceSummary(models.TransientModel):
 		lines =[]
 		# if partner:
 
-		if True
+		if True:
 			start_date = data.get('start_date')
 			end_date = data.get('end_date')
 			partner_ids = data.get('partner_ids')

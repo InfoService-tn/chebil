@@ -11,16 +11,14 @@ except ImportError:
 	_logger.debug('Cannot `import base64`.') 
 
 
-
 class InvoiceSummary(models.TransientModel):
 	_name = 'invoice.summary'
 	_description = "Invoice Summary"
 
-	
 
 	start_date = fields.Date(string="Start Date" ,default=date.today())
 	end_date = fields.Date(string="End Date" , default=date.today())
-	invoice_status = fields.Selection([('draft', 'Draft'), ('posted', 'Posted'),('cancel', 'Cancel')], 
+	invoice_status = fields.Selection([('posted', 'Posted'), ('draft', 'Draft'), ('cancel', 'Cancel')],
 					string='Status')
 	invoice_type = fields.Selection([('customer_invoice', 'Customer Invoice'), 
 					('credit_note', 'Customer Credit Note'),
@@ -49,6 +47,8 @@ class InvoiceSummary(models.TransientModel):
 
 		lines =[]
 		# if partner:
+
+		if True
 			start_date = data.get('start_date')
 			end_date = data.get('end_date')
 			partner_ids = data.get('partner_ids')
@@ -56,9 +56,12 @@ class InvoiceSummary(models.TransientModel):
 			invoice_status = data.get('invoice_status')
 			partner_data=[]
 			account_move = self.env['account.move'].('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
-                                                        # account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+            # account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+
 			if invoice_type == 'customer_invoice':
+
 				for records in account_move:
+
 					value = {}
 					if invoice_status == 'draft':
 						if records.move_type=='out_invoice' and records.state=='draft':
@@ -71,6 +74,7 @@ class InvoiceSummary(models.TransientModel):
 								'amount_residual' : records.amount_residual,
 							})
 					elif invoice_status == 'posted':
+
 						if records.move_type=='out_invoice' and records.state=='posted':
 							value.update({
 								'partner_id' : records.partner_id.name,
@@ -84,9 +88,11 @@ class InvoiceSummary(models.TransientModel):
 					partner_data.append(value)
 
 			elif invoice_type == 'credit_note':
+
 				for credit_record in account_move:
 					credit_value = {}
 					if invoice_status == 'draft':
+
 						if credit_record.move_type=='out_refund' and credit_record.state=='draft':
 							credit_value.update({
 								'partner_id' : credit_record.partner_id.name,
@@ -97,6 +103,7 @@ class InvoiceSummary(models.TransientModel):
 								'amount_residual' : credit_record.amount_residual,
 							})
 					elif invoice_status == 'posted':
+
 						if credit_record.move_type=='out_refund' and credit_record.state=='posted':
 							credit_value.update({
 								'partner_id' : credit_record.partner_id.name,
@@ -109,6 +116,7 @@ class InvoiceSummary(models.TransientModel):
 					partner_data.append(credit_value)
 
 			elif invoice_type == 'bill':
+
 				for bill_record in account_move:
 					bill_note = {}
 					if invoice_status == 'draft':
@@ -135,6 +143,7 @@ class InvoiceSummary(models.TransientModel):
 					partner_data.append(bill_note)
 
 			elif invoice_type == 'vendor_credit_note':
+
 				for note_record in account_move:
 					refund_note = {}
 					if invoice_status== 'draft':
@@ -160,10 +169,13 @@ class InvoiceSummary(models.TransientModel):
 					partner_data.append(refund_note)
 
 			lines.append({'partner_data':partner_data})
+
 		return lines
 
 
+
 	def action_print_xls(self):
+
 		[data] = self.read()
 		file_path = 'Invoice Summary Report' + '.xlsx'
 		workbook = xlsxwriter.Workbook('/tmp/' + file_path)
@@ -194,7 +206,7 @@ class InvoiceSummary(models.TransientModel):
 		worksheet.merge_range('A1:F1' , TITLEHEDER,header_format)
 		rowscol = 1
 		if partner_ids:
-			for partner in partner_ids:
+			# for partner in partner_ids:
 				worksheet.set_row(1,20)
 				start_date = datetime.strptime(str(data.get('start_date', False)), '%Y-%m-%d').date()
 				from_date = start_date.strftime('%d-%m-%Y')

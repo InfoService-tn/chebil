@@ -4,8 +4,12 @@
 		<t t-call="web.html_container">
 			<!-- <t t-foreach="docs" t-as="o"> -->
 			<t t-call="web.external_layout">
+
+				<!--
 				<t t-if ="'partner_ids' in data">
                     <t t-foreach="data.get('partner_ids')" t-as="partner">
+				-->
+
 						<div class="page">
 								<div class="oe_structure"/> 
 								<center><h2>Invoice Summary</h2></center>
@@ -59,9 +63,14 @@
 								</table>
 
 						</div> 
+
 						<div style="page-break-before:always;"/>
+
+				<!--
 				 	</t>
 				</t>
+				-->
+
 			</t>
 		</t>
 

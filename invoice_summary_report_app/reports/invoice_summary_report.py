@@ -153,6 +153,3 @@ class InvoicesummaryReport(models.AbstractModel):
 			'end_date' : end_date,
 			'get_invoice_details': self._get_invoice_details,
 		}
-
-
-

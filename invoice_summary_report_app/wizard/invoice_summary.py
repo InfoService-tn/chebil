@@ -13,23 +13,23 @@ except ImportError:
 
 class InvoiceSummary(models.TransientModel):
 	_name = 'invoice.summary'
-	_description = "Invoice Summary"
+	_description = "Rapport des factures"
 
 
-	start_date = fields.Date(string="Start Date" ,default=date.today())
-	end_date = fields.Date(string="End Date" , default=date.today())
-	invoice_status = fields.Selection([('posted', 'Posted'), ('draft', 'Draft'), ('cancel', 'Cancel')],
-					string='Status')
-	invoice_type = fields.Selection([('customer_invoice', 'Customer Invoice'), 
-					('credit_note', 'Customer Credit Note'),
-					('bill', 'Vendor Bill'),
-					('vendor_credit_note', 'Vendor Credit Note')], string='Invoice Type')
-	partner_ids= fields.Many2many('res.partner', string="Customers" )
+	start_date = fields.Date(string="A partir du" ,default=date.today())
+	end_date = fields.Date(string="Jusqu'au" , default=date.today())
+	invoice_status = fields.Selection([('posted', 'Comptabilisé'), ('draft', 'Brouillon'), ('cancel', 'Annulé')],
+					string='Statut')
+	invoice_type = fields.Selection([('customer_invoice', 'Facture client'),
+					('credit_note', 'Note de crédit client'),
+					('bill', 'Facture fournisseur'),
+					('vendor_credit_note', 'Note de crédit fournisseur')], string='Type de facture')
+	partner_ids= fields.Many2many('res.partner', string="Partenaires" )
                    # , required=False)
-	company_ids = fields.Many2many('res.company', string='Company' , default=lambda self: self.env.user.company_id)
+	company_ids = fields.Many2many('res.company', string='Société' , default=lambda self: self.env.user.company_id)
 	
-	document = fields.Binary('Download File')
-	file = fields.Char('Report File Name', readonly=1)
+	document = fields.Binary('Télécharger le fichier')
+	file = fields.Char('Nom du fichier rapport', readonly=1)
 
 
 	def action_print_report(self):
@@ -254,5 +254,3 @@ class InvoiceSummary(models.TransientModel):
 				'type': 'ir.actions.act_window',
 				'target': 'new',
 			}
-			
-

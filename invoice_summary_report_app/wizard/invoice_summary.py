@@ -55,7 +55,7 @@ class InvoiceSummary(models.TransientModel):
 			invoice_type = data.get('invoice_type')
 			invoice_status = data.get('invoice_status')
 			partner_data=[]
-			account_move = self.env['account.move'].('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+			account_move = self.env['account.move'].search([('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
             # account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
 
 			if invoice_type == 'customer_invoice':

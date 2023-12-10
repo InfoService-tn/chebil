@@ -258,6 +258,7 @@ class InvoiceSummary(models.TransientModel):
 		rows = (rowscol + 5)
 		rowscol1 = rows +1
 		rows = rowscol1
+		partner = ''
 		# rowscol1 = rows + 2
 		for records in self._get_invoice_details(data, partner):
 			for record in records.get('partner_data'):

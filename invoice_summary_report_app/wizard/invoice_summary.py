@@ -284,7 +284,8 @@ class InvoiceSummary(models.TransientModel):
 					rows = rows + 1
 
 					# invoice_lines = record.get ('invoice_lines')
-					for line in record.get ('invoice_lines'):
+					invoice_lines = self.env['account.move'].search([('name', '=', record.get('name'))]).invoice_line_ids
+					for line in invoice_lines:
 						worksheet.write(rows, 0, line.name, cell_wrap_format)
 						worksheet.write(rows, 1, line.quantity, cell_wrap_format)
 						worksheet.write(rows, 2, line.price_unit, cell_wrap_format)

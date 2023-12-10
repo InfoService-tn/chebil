@@ -16,8 +16,8 @@ class InvoiceSummary(models.TransientModel):
 	_description = "Rapport des factures"
 
 
-	start_date = fields.Date(string="A partir du" ,default=date.today())
-	end_date = fields.Date(string="Jusqu'au" , default=date.today())
+	start_date = fields.Date(string="Date de début" ,default=date.today())
+	end_date = fields.Date(string="Date de fin" , default=date.today())
 	invoice_status = fields.Selection([('posted', 'Comptabilisé'), ('draft', 'Brouillon'), ('cancel', 'Annulé')],
 					string='Statut')
 	invoice_type = fields.Selection([('customer_invoice', 'Facture client'),
@@ -205,52 +205,53 @@ class InvoiceSummary(models.TransientModel):
 		TITLEHEDER = 'Invoice Summary'
 		worksheet.merge_range('A1:F1' , TITLEHEDER,header_format)
 		rowscol = 1
-		if partner_ids:
-			for partner in partner_ids:
-				worksheet.set_row(1,20)
-				start_date = datetime.strptime(str(data.get('start_date', False)), '%Y-%m-%d').date()
-				from_date = start_date.strftime('%d-%m-%Y')
-				end_date = datetime.strptime(str(data.get('end_date', False)), '%Y-%m-%d').date()
-				to_date = end_date.strftime('%d-%m-%Y')
 
-				worksheet.merge_range((rowscol + 2), 0, (rowscol + 2), 1,'Start Date', title_format)
-				worksheet.merge_range((rowscol + 3), 0, (rowscol + 3), 1, str(from_date) , title_format)
+		# if partner_ids:
+			#for partner in partner_ids:
+		worksheet.set_row(1,20)
+		start_date = datetime.strptime(str(data.get('start_date', False)), '%Y-%m-%d').date()
+		from_date = start_date.strftime('%d-%m-%Y')
+		end_date = datetime.strptime(str(data.get('end_date', False)), '%Y-%m-%d').date()
+		to_date = end_date.strftime('%d-%m-%Y')
 
-				worksheet.merge_range((rowscol + 2), 4, (rowscol + 2), 5,'End Date', title_format)
-				worksheet.merge_range((rowscol + 3), 4, (rowscol + 3), 5, str(to_date) , title_format)
-				rowscol  = rowscol 
+		worksheet.merge_range((rowscol + 2), 0, (rowscol + 2), 1,'Start Date', title_format)
+		worksheet.merge_range((rowscol + 3), 0, (rowscol + 3), 1, str(from_date) , title_format)
 
-				row=4;
-				worksheet.write(row+2,0,"Partner",cell_format)
-				worksheet.write(row+2,1,"Invoice No",cell_format)
-				worksheet.write(row+2,2,"Invoice Date",cell_format)
-				worksheet.write(row+2,3,"Amount Invoiced",cell_format)
-				worksheet.write(row+2,4,"Amount Paid",cell_format)
-				worksheet.write(row+2,5,"Amount Due",cell_format)
-				rows = (rowscol + 5)
-				rowscol1 = rows +1 
-				rows = rowscol1
-				# rowscol1 = rows + 2
-				for records in self._get_invoice_details(data, partner): 
-					for record in records.get('partner_data'):
-						worksheet.write(rows, 0,  record.get('partner_id'), cell_wrap_format)
-						worksheet.write(rows, 1,  record.get('name'), cell_wrap_format)
-						worksheet.write(rows, 2,  str(record.get('invoice_date')), cell_wrap_format)
-						worksheet.write(rows, 3,  record.get('amount_total'), cell_wrap_format)
-						worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
-						worksheet.write(rows, 5,  record.get('amount_residual'), cell_wrap_format)
-						rows = rows + 1
-					rows = rows
-			workbook.close()
-			partner_details = base64.b64encode(open('/tmp/' + file_path, 'rb+').read())
-			self.document = partner_details
-			self.file = 'Invoice Summary Report'+'.xlsx'
-			return {
-				'res_id': self.id,
-				'name': 'Invoice Summary',
-				'view_mode' : 'form',
-				'view_type': 'form',
-				'res_model': 'invoice.summary',
-				'type': 'ir.actions.act_window',
-				'target': 'new',
-			}
+		worksheet.merge_range((rowscol + 2), 4, (rowscol + 2), 5,'End Date', title_format)
+		worksheet.merge_range((rowscol + 3), 4, (rowscol + 3), 5, str(to_date) , title_format)
+		rowscol  = rowscol
+
+		row=4;
+		worksheet.write(row+2,0,"Partner",cell_format)
+		worksheet.write(row+2,1,"Invoice No",cell_format)
+		worksheet.write(row+2,2,"Invoice Date",cell_format)
+		worksheet.write(row+2,3,"Amount Invoiced",cell_format)
+		worksheet.write(row+2,4,"Amount Paid",cell_format)
+		worksheet.write(row+2,5,"Amount Due",cell_format)
+		rows = (rowscol + 5)
+		rowscol1 = rows +1
+		rows = rowscol1
+		# rowscol1 = rows + 2
+		for records in self._get_invoice_details(data, partner):
+			for record in records.get('partner_data'):
+				worksheet.write(rows, 0,  record.get('partner_id'), cell_wrap_format)
+				worksheet.write(rows, 1,  record.get('name'), cell_wrap_format)
+				worksheet.write(rows, 2,  str(record.get('invoice_date')), cell_wrap_format)
+				worksheet.write(rows, 3,  record.get('amount_total'), cell_wrap_format)
+				worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
+				worksheet.write(rows, 5,  record.get('amount_residual'), cell_wrap_format)
+				rows = rows + 1
+			rows = rows
+		workbook.close()
+		partner_details = base64.b64encode(open('/tmp/' + file_path, 'rb+').read())
+		self.document = partner_details
+		self.file = 'Invoice Summary Report'+'.xlsx'
+		return {
+			'res_id': self.id,
+			'name': 'Invoice Summary',
+			'view_mode' : 'form',
+			'view_type': 'form',
+			'res_model': 'invoice.summary',
+			'type': 'ir.actions.act_window',
+			'target': 'new',
+		}

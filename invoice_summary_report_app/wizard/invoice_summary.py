@@ -222,24 +222,32 @@ class InvoiceSummary(models.TransientModel):
 		rowscol  = rowscol
 
 		row=4;
-		worksheet.write(row+2,0,"Partner",cell_format)
-		worksheet.write(row+2,1,"Invoice No",cell_format)
-		worksheet.write(row+2,2,"Invoice Date",cell_format)
-		worksheet.write(row+2,3,"Amount Invoiced",cell_format)
-		worksheet.write(row+2,4,"Amount Paid",cell_format)
-		worksheet.write(row+2,5,"Amount Due",cell_format)
+		worksheet.write(row+2,0,"Invoice No",cell_format)
+		worksheet.write(row+2,1,"Date",cell_format)
+		worksheet.write(row+2,2,"Partner", cell_format)
+		worksheet.write(row+2,3,"Untaxed", cell_format)
+		worksheet.write(row+2,4,"Taxes", cell_format)
+		worksheet.write(row+2,5,"Stamp", cell_format)
+		worksheet.write(row+2,6,"Total", cell_format)
+		# worksheet.write(row+2,4,"Amount Paid",cell_format)
+		# worksheet.write(row+2,5,"Amount Due",cell_format)
 		rows = (rowscol + 5)
 		rowscol1 = rows +1
 		rows = rowscol1
 		# rowscol1 = rows + 2
 		for records in self._get_invoice_details(data, partner):
 			for record in records.get('partner_data'):
-				worksheet.write(rows, 0,  record.get('partner_id'), cell_wrap_format)
-				worksheet.write(rows, 1,  record.get('name'), cell_wrap_format)
-				worksheet.write(rows, 2,  str(record.get('invoice_date')), cell_wrap_format)
-				worksheet.write(rows, 3,  record.get('amount_total'), cell_wrap_format)
-				worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
-				worksheet.write(rows, 5,  record.get('amount_residual'), cell_wrap_format)
+				worksheet.write(rows, 0,  record.get('name'), cell_wrap_format)
+				worksheet.write(rows, 1,  str(record.get('invoice_date')), cell_wrap_format)
+				worksheet.write(rows, 2, record.get('partner_id'), cell_wrap_format)
+
+				worksheet.write(rows, 3, record.get('amount_untaxed'), cell_wrap_format)
+				worksheet.write(rows, 4, record.get('amount_tax'), cell_wrap_format)
+				worksheet.write(rows, 5, record.get(1), cell_wrap_format)
+
+				worksheet.write(rows, 6,  record.get('amount_total'), cell_wrap_format)
+				# worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
+				# worksheet.write(rows, 5,  record.get('amount_residual'), cell_wrap_format)
 				rows = rows + 1
 			rows = rows
 		workbook.close()

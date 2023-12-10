@@ -69,7 +69,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : records.partner_id.name,
 								'name' : records.name,
 								'invoice_date' : records.invoice_date,
-								'amount_total': records.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : records.amount_paid,
 								'amount_residual' : records.amount_residual,
 							})
@@ -80,7 +83,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : records.partner_id.name,
 								'name' : records.name,
 								'invoice_date' : records.invoice_date,
-								'amount_total': records.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : records.amount_paid,
 								'amount_residual' : records.amount_residual,
 							})
@@ -98,7 +104,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : credit_record.partner_id.name,
 								'name' : credit_record.name,
 								'invoice_date' : credit_record.invoice_date,
-								'amount_total': credit_record.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : credit_record.amount_paid,
 								'amount_residual' : credit_record.amount_residual,
 							})
@@ -109,7 +118,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : credit_record.partner_id.name,
 								'name' : credit_record.name,
 								'invoice_date' : credit_record.invoice_date,
-								'amount_total': credit_record.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : credit_record.amount_paid,
 								'amount_residual' : credit_record.amount_residual,
 							})
@@ -125,7 +137,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : bill_record.partner_id.name,
 								'name' : bill_record.name,
 								'invoice_date' : bill_record.invoice_date,
-								'amount_total': bill_record.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : bill_record.amount_paid,
 								'amount_residual' : bill_record.amount_residual,
 							})
@@ -136,7 +151,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : bill_record.partner_id.name,
 								'name' : bill_record.name,
 								'invoice_date' : bill_record.invoice_date,
-								'amount_total': bill_record.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : bill_record.amount_paid,
 								'amount_residual' : bill_record.amount_residual,
 							})
@@ -152,7 +170,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : note_record.partner_id.name,
 								'name' : note_record.name,
 								'invoice_date' : note_record.invoice_date,
-								'amount_total': note_record.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 11,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' :note_record.amount_paid,
 								'amount_residual' : note_record.amount_residual,
 							})
@@ -162,7 +183,10 @@ class InvoiceSummary(models.TransientModel):
 								'partner_id' : note_record.partner_id.name,
 								'name' : note_record.name,
 								'invoice_date' : note_record.invoice_date,
-								'amount_total': note_record.amount_total,
+								'amount_untaxed': records.amount_untaxed_signed,
+								'amount_tax': records.amount_tax_signed,
+								'amount_stamptax': 1,
+								'amount_total': records.amount_total_signed,
 								'amount_paid' : note_record.amount_paid,
 								'amount_residual' : note_record.amount_residual,
 							})
@@ -227,7 +251,7 @@ class InvoiceSummary(models.TransientModel):
 		worksheet.write(row+2,2,"Partner", cell_format)
 		worksheet.write(row+2,3,"Untaxed", cell_format)
 		worksheet.write(row+2,4,"Taxes", cell_format)
-		worksheet.write(row+2,5,"Stamp", cell_format)
+		worksheet.write(row+2,5,"StampTax", cell_format)
 		worksheet.write(row+2,6,"Total", cell_format)
 		# worksheet.write(row+2,4,"Amount Paid",cell_format)
 		# worksheet.write(row+2,5,"Amount Due",cell_format)
@@ -243,7 +267,7 @@ class InvoiceSummary(models.TransientModel):
 
 				worksheet.write(rows, 3, record.get('amount_untaxed'), cell_wrap_format)
 				worksheet.write(rows, 4, record.get('amount_tax'), cell_wrap_format)
-				worksheet.write(rows, 5, record.get(1), cell_wrap_format)
+				worksheet.write(rows, 5, record.get('amount_stamptax'), cell_wrap_format)
 
 				worksheet.write(rows, 6,  record.get('amount_total'), cell_wrap_format)
 				# worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)

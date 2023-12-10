@@ -290,7 +290,7 @@ class InvoiceSummary(models.TransientModel):
 						worksheet.write(rows, 1, line.quantity, cell_wrap_format)
 						worksheet.write(rows, 2, line.price_unit, cell_wrap_format)
 						worksheet.write(rows, 3, line.discount, cell_wrap_format)
-						worksheet.write(rows, 4, line.tax_ids, cell_wrap_format)
+						# worksheet.write(rows, 4, line.tax_ids, cell_wrap_format)
 						worksheet.write(rows, 5, line.amount, cell_wrap_format)
 						rows = rows + 1
 

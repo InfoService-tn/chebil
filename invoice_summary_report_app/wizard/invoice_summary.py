@@ -56,6 +56,8 @@ class InvoiceSummary(models.TransientModel):
 			invoice_status = data.get('invoice_status')
 			partner_data=[]
 			account_move = self.env['account.move'].search([('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
+			account_move = sorted(account_move, key=lambda invoice: invoice.name)
+
             # account_move = self.env['account.move'].search([('partner_id','=',partner),('invoice_date','>=', start_date),('invoice_date','<=', end_date)])
 
 			if invoice_type == 'customer_invoice':
@@ -201,9 +203,10 @@ class InvoiceSummary(models.TransientModel):
 	def action_print_xls(self):
 
 		[data] = self.read()
-		file_path = 'Invoice Summary Report' + '.xlsx'
+		file_path = 'Rapport des factures' + '.xlsx'
 		workbook = xlsxwriter.Workbook('/tmp/' + file_path)
-		worksheet = workbook.add_worksheet('Invoice Summary')
+		worksheet = workbook.add_worksheet('Rapport des factures')
+
 		header_format = workbook.add_format({'bold': True,'valign':'vcenter','font_size':16,'align': 'center','bg_color':'#D8D8D8'})
 		title_format = workbook.add_format({'border': 1,'bold': True, 'valign': 'vcenter','align': 'center', 'font_size':14,'bg_color':'#D8D8D8'})
 		date_format = workbook.add_format({'border': 2 ,'valign': 'vcenter','align': 'center'})
@@ -227,7 +230,7 @@ class InvoiceSummary(models.TransientModel):
 			'start_date': self.start_date,
 			'end_date': self.end_date,
 		}
-		TITLEHEDER = 'Invoice Summary'
+		TITLEHEDER = 'Rapport des factures'
 		worksheet.merge_range('A1:G1' , TITLEHEDER,header_format)
 		rowscol = 1
 
@@ -262,8 +265,9 @@ class InvoiceSummary(models.TransientModel):
 		partner = ''
 		# rowscol1 = rows + 2
 
-		invoices = sorted(self._get_invoice_details(data, partner), key=lambda invoice: invoice.name)
-		for records in invoices:
+		# invoices = sorted(self._get_invoice_details(data, partner), key=lambda invoice: invoice.name)
+
+		for records in self._get_invoice_details(data, partner):
 			for record in records.get('partner_data'):
 				if record.get ('name')!="" and record.get('invoice_date'):
 					worksheet.write(rows, 0, record.get('name'), cell_wrap_format)

@@ -24,7 +24,7 @@ class InvoiceSummary(models.TransientModel):
 					('credit_note', 'Note de crédit client'),
 					('bill', 'Facture fournisseur'),
 					('vendor_credit_note', 'Note de crédit fournisseur')], string='Type de facture')
-	partner_ids= fields.Many2many('res.partner', string="Partenaires" )
+	partner_ids = fields.Many2many('res.partner', string="Partenaires" )
                    # , required=False)
 	company_ids = fields.Many2many('res.company', string='Société' , default=lambda self: self.env.user.company_id)
 	
@@ -75,7 +75,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : records.amount_paid,
 								'amount_residual' : records.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 					elif invoice_status == 'posted':
 
@@ -90,8 +89,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : records.amount_paid,
 								'amount_residual' : records.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
-
 							})
 			
 					partner_data.append(value)
@@ -113,7 +110,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : credit_record.amount_paid,
 								'amount_residual' : credit_record.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 					elif invoice_status == 'posted':
 
@@ -128,7 +124,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : credit_record.amount_paid,
 								'amount_residual' : credit_record.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 					partner_data.append(credit_value)
 
@@ -148,7 +143,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : bill_record.amount_paid,
 								'amount_residual' : bill_record.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 							# print('bill_note------------------------' ,bill_note)
 					elif invoice_status== 'posted':
@@ -163,7 +157,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : bill_record.amount_paid,
 								'amount_residual' : bill_record.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 					partner_data.append(bill_note)
 
@@ -183,7 +176,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' :note_record.amount_paid,
 								'amount_residual' : note_record.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 					elif invoice_status == 'posted':
 						if note_record.move_type=='in_refund' and note_record.state=='posted':
@@ -197,7 +189,6 @@ class InvoiceSummary(models.TransientModel):
 								'amount_total': records.amount_total_signed,
 								'amount_paid' : note_record.amount_paid,
 								'amount_residual' : note_record.amount_residual,
-								'invoice_lines': records.invoice_line_ids,
 							})
 					partner_data.append(refund_note)
 
@@ -217,6 +208,7 @@ class InvoiceSummary(models.TransientModel):
 		title_format = workbook.add_format({'border': 1,'bold': True, 'valign': 'vcenter','align': 'center', 'font_size':14,'bg_color':'#D8D8D8'})
 		date_format = workbook.add_format({'border': 2 ,'valign': 'vcenter','align': 'center'})
 		cell_wrap_format = workbook.add_format({'border': 1,'valign':'vjustify','valign':'vcenter','align': 'left','font_size':12,}) ##E6E6E6
+		cell_num_format = workbook.add_format({'border': 1,'valign':'vjustify','valign':'vcenter','align': 'right','font_size':12,'num_format': '$#,###0.000'}) ##E6E6E6
 
 		cell_format=workbook.add_format({
 			'bold':1,
@@ -275,10 +267,10 @@ class InvoiceSummary(models.TransientModel):
 					worksheet.write(rows, 0, record.get('name'), cell_wrap_format)
 					worksheet.write(rows, 1, str(record.get('invoice_date')), cell_wrap_format)
 					worksheet.write(rows, 2, record.get('partner_id'), cell_wrap_format)
-					worksheet.write(rows, 3, record.get('amount_untaxed'), cell_wrap_format)
-					worksheet.write(rows, 4, record.get('amount_tax')-1, cell_wrap_format)
-					worksheet.write(rows, 5, record.get('amount_stamptax'), cell_wrap_format)
-					worksheet.write(rows, 6, record.get('amount_total'), cell_wrap_format)
+					worksheet.write(rows, 3, record.get('amount_untaxed'), cell_num_format)
+					worksheet.write(rows, 4, record.get('amount_tax')-1, cell_num_format)
+					worksheet.write(rows, 5, record.get('amount_stamptax'), cell_num_format)
+					worksheet.write(rows, 6, record.get('amount_total'), cell_num_format)
 					# worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
 					# worksheet.write(rows, 5,  record.get('amount_residual'), cell_wrap_format)
 					rows = rows + 1
@@ -289,10 +281,10 @@ class InvoiceSummary(models.TransientModel):
 						if line.name != '[TF] Timbre fiscal':
 							worksheet.write(rows, 1, line.name, cell_wrap_format)
 							worksheet.write(rows, 2, line.quantity, cell_wrap_format)
-							worksheet.write(rows, 3, line.price_unit, cell_wrap_format)
+							worksheet.write(rows, 3, line.price_unit, cell_num_format)
 							worksheet.write(rows, 4, line.discount, cell_wrap_format)
 							worksheet.write(rows, 5, line.tax_ids.amount, cell_wrap_format)
-							worksheet.write(rows, 6, line.balance, cell_wrap_format)
+							worksheet.write(rows, 6, line.balance, cell_num_format)
 							rows = rows + 1
 
 			# rows = rows

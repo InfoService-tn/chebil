@@ -208,7 +208,7 @@ class InvoiceSummary(models.TransientModel):
 		title_format = workbook.add_format({'border': 1,'bold': True, 'valign': 'vcenter','align': 'center', 'font_size':14,'bg_color':'#D8D8D8'})
 		date_format = workbook.add_format({'border': 2 ,'valign': 'vcenter','align': 'center'})
 		cell_wrap_format = workbook.add_format({'border': 1,'valign':'vjustify','valign':'vcenter','align': 'left','font_size':12,}) ##E6E6E6
-		cell_num_format = workbook.add_format({'border': 1,'valign':'vjustify','valign':'vcenter','align': 'right','font_size':12,'num_format': '$#,###0.000'}) ##E6E6E6
+		cell_num_format = workbook.add_format({'border': 1,'valign':'vjustify','valign':'vcenter','align': 'right','font_size':12,'num_format': '#,###0.000'}) ##E6E6E6
 
 		cell_format=workbook.add_format({
 			'bold':1,
@@ -261,7 +261,9 @@ class InvoiceSummary(models.TransientModel):
 		# rows = rowscol1
 		partner = ''
 		# rowscol1 = rows + 2
-		for records in self._get_invoice_details(data, partner):
+
+		invoices = sorted(self._get_invoice_details(data, partner),key='name')
+		for records in invoices:
 			for record in records.get('partner_data'):
 				if record.get ('name')!="" and record.get('invoice_date'):
 					worksheet.write(rows, 0, record.get('name'), cell_wrap_format)

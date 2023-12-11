@@ -271,12 +271,12 @@ class InvoiceSummary(models.TransientModel):
 		# rowscol1 = rows + 2
 		for records in self._get_invoice_details(data, partner):
 			for record in records.get('partner_data'):
-				if record.get ('name')!='':
+				if record.get ('name')<>'':
 					worksheet.write(rows, 0, record.get('name'), cell_wrap_format)
 					worksheet.write(rows, 1, str(record.get('invoice_date')), cell_wrap_format)
 					worksheet.write(rows, 2, record.get('partner_id'), cell_wrap_format)
 					worksheet.write(rows, 3, record.get('amount_untaxed'), cell_wrap_format)
-					worksheet.write(rows, 4, record.get('amount_tax'), cell_wrap_format)
+					worksheet.write(rows, 4, record.get('amount_tax')-1, cell_wrap_format)
 					worksheet.write(rows, 5, record.get('amount_stamptax'), cell_wrap_format)
 					worksheet.write(rows, 6, record.get('amount_total'), cell_wrap_format)
 					# worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
@@ -286,13 +286,14 @@ class InvoiceSummary(models.TransientModel):
 					# invoice_lines = record.get ('invoice_lines')
 					invoice_lines = self.env['account.move'].search([('name', '=', record.get('name'))]).invoice_line_ids
 					for line in invoice_lines:
-						worksheet.write(rows, 0, line.name, cell_wrap_format)
-						worksheet.write(rows, 1, line.quantity, cell_wrap_format)
-						worksheet.write(rows, 2, line.price_unit, cell_wrap_format)
-						worksheet.write(rows, 3, line.discount, cell_wrap_format)
-						# worksheet.write(rows, 4, line.tax_ids, cell_wrap_format)
-						worksheet.write(rows, 5, line.balance, cell_wrap_format)
-						rows = rows + 1
+						if line.name <> '[TF] Timbre fiscal':
+							worksheet.write(rows, 1, line.name, cell_wrap_format)
+							worksheet.write(rows, 2, line.quantity, cell_wrap_format)
+							worksheet.write(rows, 3, line.price_unit, cell_wrap_format)
+							worksheet.write(rows, 4, line.discount, cell_wrap_format)
+							worksheet.write(rows, 5, line.tax_ids.amount, cell_wrap_format)
+							worksheet.write(rows, 6, line.balance, cell_wrap_format)
+							rows = rows + 1
 
 			rows = rows
 		workbook.close()

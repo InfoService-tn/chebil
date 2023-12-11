@@ -249,14 +249,22 @@ class InvoiceSummary(models.TransientModel):
 		# worksheet.merge_range((rowscol + 3), 4, (rowscol + 3), 5, str(to_date) , title_format)
 		# rowscol  = rowscol
 
-		row = 3
-		worksheet.write(row,0,"Invoice No",cell_format)
-		worksheet.write(row,1,"Date",cell_format)
-		worksheet.write(row,2,"Partner", cell_format)
-		worksheet.write(row,3,"Untaxed", cell_format)
-		worksheet.write(row,4,"Taxes", cell_format)
-		worksheet.write(row,5,"StampTax", cell_format)
-		worksheet.write(row,6,"Total", cell_format)
+		row = 2
+		worksheet.write(row, 0,"Facture",cell_format)
+		worksheet.write(row, 1,"Date",cell_format)
+		worksheet.write(row, 2,"Partnaire", cell_format)
+		worksheet.write(row, 3,"Montant HT", cell_format)
+		worksheet.write(row, 4,"Taxes", cell_format)
+		worksheet.write(row, 5,"Fimbre Fiscal", cell_format)
+		worksheet.write(row, 6,"Total", cell_format)
+
+		worksheet.write(row, 7, "Produit", cell_format)
+		worksheet.write(row, 8, "Quantité", cell_format)
+		worksheet.write(row, 9, "Prix", cell_format)
+		worksheet.write(row,10, "Remise %", cell_format)
+		worksheet.write(row,11, "Taxe", cell_format)
+		worksheet.write(row,12, "Total", cell_format)
+
 		# worksheet.write(row+2,4,"Amount Paid",cell_format)
 		# worksheet.write(row+2,5,"Amount Due",cell_format)
 		rows = row + 1
@@ -279,18 +287,19 @@ class InvoiceSummary(models.TransientModel):
 					worksheet.write(rows, 6, record.get('amount_total'), cell_num_format)
 					# worksheet.write(rows, 4,  record.get('amount_paid'), cell_wrap_format)
 					# worksheet.write(rows, 5,  record.get('amount_residual'), cell_wrap_format)
-					rows = rows + 1
+
+					# rows = rows + 1
 
 					# invoice_lines = record.get ('invoice_lines')
 					invoice_lines = self.env['account.move'].search([('name', '=', record.get('name'))]).invoice_line_ids
 					for line in invoice_lines:
 						if line.name != '[TF] Timbre fiscal':
-							worksheet.write(rows, 1, line.name, cell_wrap_format)
-							worksheet.write(rows, 2, line.quantity, cell_wrap_format)
-							worksheet.write(rows, 3, line.price_unit, cell_num_format)
-							worksheet.write(rows, 4, line.discount, cell_wrap_format)
-							worksheet.write(rows, 5, line.tax_ids.amount, cell_wrap_format)
-							worksheet.write(rows, 6, line.balance, cell_num_format)
+							worksheet.write(rows, 7, line.name, cell_wrap_format)
+							worksheet.write(rows, 8, line.quantity, cell_wrap_format)
+							worksheet.write(rows, 9, line.price_unit, cell_num_format)
+							worksheet.write(rows,10, line.discount, cell_wrap_format)
+							worksheet.write(rows,11, line.tax_ids.amount, cell_wrap_format)
+							worksheet.write(rows,12, line.balance, cell_num_format)
 							rows = rows + 1
 
 			# rows = rows

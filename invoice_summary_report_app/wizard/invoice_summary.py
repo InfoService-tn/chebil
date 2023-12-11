@@ -236,7 +236,7 @@ class InvoiceSummary(models.TransientModel):
 			'end_date': self.end_date,
 		}
 		TITLEHEDER = 'Invoice Summary'
-		worksheet.merge_range('A1:F1' , TITLEHEDER,header_format)
+		worksheet.merge_range('A1:G1' , TITLEHEDER,header_format)
 		rowscol = 1
 
 		# if partner_ids:
@@ -252,21 +252,21 @@ class InvoiceSummary(models.TransientModel):
 
 		# worksheet.merge_range((rowscol + 2), 4, (rowscol + 2), 5,'End Date', title_format)
 		# worksheet.merge_range((rowscol + 3), 4, (rowscol + 3), 5, str(to_date) , title_format)
-		rowscol  = rowscol
+		# rowscol  = rowscol
 
-		row=3
-		worksheet.write(row+2,0,"Invoice No",cell_format)
-		worksheet.write(row+2,1,"Date",cell_format)
-		worksheet.write(row+2,2,"Partner", cell_format)
-		worksheet.write(row+2,3,"Untaxed", cell_format)
-		worksheet.write(row+2,4,"Taxes", cell_format)
-		worksheet.write(row+2,5,"StampTax", cell_format)
-		worksheet.write(row+2,6,"Total", cell_format)
+		row= = 3
+		worksheet.write(row,0,"Invoice No",cell_format)
+		worksheet.write(row,1,"Date",cell_format)
+		worksheet.write(row,2,"Partner", cell_format)
+		worksheet.write(row,3,"Untaxed", cell_format)
+		worksheet.write(row,4,"Taxes", cell_format)
+		worksheet.write(row,5,"StampTax", cell_format)
+		worksheet.write(row,6,"Total", cell_format)
 		# worksheet.write(row+2,4,"Amount Paid",cell_format)
 		# worksheet.write(row+2,5,"Amount Due",cell_format)
-		rows = (rowscol + 2)
-		rowscol1 = rows +1
-		rows = rowscol1
+		rows = row + 1
+		# rowscol1 = rows +1
+		# rows = rowscol1
 		partner = ''
 		# rowscol1 = rows + 2
 		for records in self._get_invoice_details(data, partner):
@@ -295,7 +295,7 @@ class InvoiceSummary(models.TransientModel):
 							worksheet.write(rows, 6, line.balance, cell_wrap_format)
 							rows = rows + 1
 
-			rows = rows
+			# rows = rows
 		workbook.close()
 		partner_details = base64.b64encode(open('/tmp/' + file_path, 'rb+').read())
 		self.document = partner_details

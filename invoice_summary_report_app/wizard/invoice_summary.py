@@ -286,7 +286,7 @@ class InvoiceSummary(models.TransientModel):
 					# invoice_lines = record.get ('invoice_lines')
 					invoice_lines = self.env['account.move'].search([('name', '=', record.get('name'))]).invoice_line_ids
 					for line in invoice_lines:
-						if line.name <> '[TF] Timbre fiscal':
+						if line.name != '[TF] Timbre fiscal':
 							worksheet.write(rows, 1, line.name, cell_wrap_format)
 							worksheet.write(rows, 2, line.quantity, cell_wrap_format)
 							worksheet.write(rows, 3, line.price_unit, cell_wrap_format)

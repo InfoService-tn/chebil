@@ -254,7 +254,7 @@ class InvoiceSummary(models.TransientModel):
 		# worksheet.merge_range((rowscol + 3), 4, (rowscol + 3), 5, str(to_date) , title_format)
 		# rowscol  = rowscol
 
-		row= = 3
+		row = 3
 		worksheet.write(row,0,"Invoice No",cell_format)
 		worksheet.write(row,1,"Date",cell_format)
 		worksheet.write(row,2,"Partner", cell_format)

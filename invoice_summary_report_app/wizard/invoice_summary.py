@@ -262,7 +262,7 @@ class InvoiceSummary(models.TransientModel):
 		partner = ''
 		# rowscol1 = rows + 2
 
-		invoices = sorted(self._get_invoice_details(data, partner),key='name')
+		invoices = sorted(self._get_invoice_details(data, partner), key=lambda invoice: invoice.name)
 		for records in invoices:
 			for record in records.get('partner_data'):
 				if record.get ('name')!="" and record.get('invoice_date'):

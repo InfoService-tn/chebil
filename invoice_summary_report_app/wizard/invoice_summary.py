@@ -271,7 +271,7 @@ class InvoiceSummary(models.TransientModel):
 		# rowscol1 = rows + 2
 		for records in self._get_invoice_details(data, partner):
 			for record in records.get('partner_data'):
-				if record.get ('name')<>'':
+				if record.get ('name')!="" and record.get('invoice_date'):
 					worksheet.write(rows, 0, record.get('name'), cell_wrap_format)
 					worksheet.write(rows, 1, str(record.get('invoice_date')), cell_wrap_format)
 					worksheet.write(rows, 2, record.get('partner_id'), cell_wrap_format)
